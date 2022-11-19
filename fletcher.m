@@ -10,8 +10,8 @@ function[s]=fletcher(cx,cy,a,d,xi,yi) % d est un doublet cx, cy
     
     lambda = 20 ;
 
-    B1 = 0.5 ;
-    B2 = 0.7 ;
+    B1 = 10^-3 ;
+    B2 = 0.99 ;
     %y = 0 ; % : Gamma On le déclare et on lui donne sa valeur
 
     % Nous devons calculer gamma à partir de a,B1,B2, d est moins le
