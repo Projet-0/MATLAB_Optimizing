@@ -1,6 +1,6 @@
 function[d]=grad_ctls(cx,cy,xi,yi)
     n = length(xi) ; 
-    d = [0,0] ;
+    d = [0;0] ;
     R = 1.5 ;
 
     %syms k ;

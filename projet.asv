@@ -1,4 +1,5 @@
 % Projet d'optimisation 
+
 xi ;
 yi ;
 
@@ -7,12 +8,12 @@ close all; clc
 
 dbtype('ctls.m') ;
 dbtype('grad_ctls.m') ;
-
+dbtype('fletcher.m');
 
 ctls(0.2,0.2,xi,yi) ; 
 
-cx = linspace(-1,1,100);
-cy = linspace(-1,2,100);
+cx = linspace(-1,1,100); % Valeur prise par Cx 
+cy = linspace(-1,2,100); % Ensemble de valeur prise par Cy
 
 
 % Intervalle -1 4 
@@ -137,8 +138,8 @@ vtiq_cx = (ctls(-3+h,-2,xi,yi)-ctls(-3,-2,xi,yi) ) / h ;% Composante selon cx
 vtiq_cy = (ctls(-3,-2+h,xi,yi)-ctls(-3,-2,xi,yi) ) / h ;% Composante selon cy
 vexp = grad_ctls(-3,-2,xi,yi) ;
 
-e_cx = (vtiq_cx - vexp(1))/vtiq_cx 
-e_cy = (vtiq_cy - vexp(2))/vtiq_cy 
+e_cx = (vtiq_cx - vexp(1))/vtiq_cx  % Ecart relatif 
+e_cy = (vtiq_cy - vexp(2))/vtiq_cy  % Ecart relatif 
 
 
 % Le calcul du gradient semble cohérent avec le calcul du gradient par
@@ -188,5 +189,29 @@ figure;
 
 %% Question 6 Méthode de Fletcher le Maréchal
 
+% Il faut que notre fonction gradient renvoie un vecteur colonne IMPORTANT
 
-%
+% ON CHERCHE LA DIRECTION Dk à xk fixé .On se servira surement du gradient_ctls
+% On évalue le minimum de alpha tel que f(xk + alpha*dk) 
+% On calcule xk+1
+
+% On vérifie que le gradient évaluée en xk ||Nabla(xk)|| <= v epsilon. Si ce n'est pas le cas on recommence
+
+cxk = 2 ; % Première approximation du minimum en cx
+cyk = 2 ; % Première approximation du minimum en cy 
+
+%a = 50 ;
+b = 50 ;
+d = -grad_ctls(0.5,0.5,xi,yi)
+y = 0.5
+%dbtype('fletcher.m');
+
+% Il faut tester avec des valeurs opposées au gradient
+d  = -grad_ctls(0.5,0.5,xi,yi)
+
+fletcher(0.5,0.5,10^-6,-grad_ctls(0.5,0.5,xi,yi),xi,yi) % Calcul de alpha
+
+fletcher_complet(cx,cy,xi,yi,epsilon_fletcher)
+
+ % Rapport sous forme d'un pdf, on peut le générer avec un rapport
+ % automatique matlab. Il faut pouvoir interpréter les résultats obtenus
